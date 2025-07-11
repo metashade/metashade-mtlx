@@ -1,0 +1,83 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Configure MaterialX Debug",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-S", "${workspaceFolder}/MaterialX",
+				"-B", "${workspaceFolder}/../_builds/MaterialX.metashade",
+				"-DCMAKE_BUILD_TYPE=Debug",
+				"-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../_builds/MaterialX.metashade/installed",
+				"-DMATERIALX_BUILD_VIEWER=ON",
+				"-DMATERIALX_BUILD_GRAPH_EDITOR=ON",
+				"-DMATERIALX_BUILD_PYTHON=OFF",
+				"-DMATERIALX_BUILD_TESTS=OFF"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile",
+				"$gcc"
+			],
+			"isBackground": false,
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Build MaterialX Debug",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"${workspaceFolder}/../_builds/MaterialX.metashade",
+				"--config",
+				"Debug",
+				"--parallel"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$msCompile",
+				"$gcc"
+			],
+			"isBackground": false,
+			"dependsOn": "Configure MaterialX Debug"
+		},
+		{
+			"label": "Install MaterialX Debug",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--install",
+				"${workspaceFolder}/../_builds/MaterialX.metashade",
+				"--config",
+				"Debug"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile",
+				"$gcc"
+			],
+			"isBackground": false,
+			"dependsOn": "Build MaterialX Debug"
+		},
+		{
+			"label": "Clean MaterialX",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"${workspaceFolder}/../_builds/MaterialX.metashade",
+				"--target",
+				"clean"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"isBackground": false
+		}
+	]
+}
