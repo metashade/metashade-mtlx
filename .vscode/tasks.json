@@ -12,8 +12,8 @@
 				"-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../_builds/MaterialX.metashade/installed",
 				"-DMATERIALX_BUILD_VIEWER=ON",
 				"-DMATERIALX_BUILD_GRAPH_EDITOR=ON",
-				"-DMATERIALX_BUILD_PYTHON=OFF",
-				"-DMATERIALX_BUILD_TESTS=OFF"
+				"-DMATERIALX_BUILD_PYTHON=ON",
+				"-DMATERIALX_BUILD_TESTS=ON"
 			],
 			"group": "build",
 			"problemMatcher": [
