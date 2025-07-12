@@ -1,0 +1,4 @@
+{
+    "MaterialX.buildDirectory": "${workspaceFolder}/../_builds/MaterialX.metashade",
+    "MaterialX.installPrefix": "${workspaceFolder}/../_builds/MaterialX.metashade/installed"
+}

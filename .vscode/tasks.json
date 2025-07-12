@@ -7,9 +7,9 @@
 			"command": "cmake",
 			"args": [
 				"-S", "${workspaceFolder}/MaterialX",
-				"-B", "${workspaceFolder}/../_builds/MaterialX.metashade",
+				"-B", "${config:MaterialX.buildDirectory}",
 				"-DCMAKE_BUILD_TYPE=Debug",
-				"-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/../_builds/MaterialX.metashade/installed",
+				"-DCMAKE_INSTALL_PREFIX=${config:MaterialX.installPrefix}",
 				"-DMATERIALX_BUILD_VIEWER=ON",
 				"-DMATERIALX_BUILD_GRAPH_EDITOR=ON",
 				"-DMATERIALX_BUILD_PYTHON=ON",
@@ -35,7 +35,7 @@
 			"command": "cmake",
 			"args": [
 				"--build",
-				"${workspaceFolder}/../_builds/MaterialX.metashade",
+				"${config:MaterialX.buildDirectory}",
 				"--config",
 				"Debug",
 				"--parallel"
@@ -63,7 +63,7 @@
 			"command": "cmake",
 			"args": [
 				"--install",
-				"${workspaceFolder}/../_builds/MaterialX.metashade",
+				"${config:MaterialX.buildDirectory}",
 				"--config",
 				"Debug"
 			],
@@ -87,7 +87,7 @@
 			"command": "cmake",
 			"args": [
 				"--build",
-				"${workspaceFolder}/../_builds/MaterialX.metashade",
+				"${config:MaterialX.buildDirectory}",
 				"--target",
 				"clean"
 			],
