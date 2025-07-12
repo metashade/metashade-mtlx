@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/MaterialX/source/**",
+                "${workspaceFolder}/MaterialX/libraries/**",
+                "${config:MaterialX.buildDirectory}/**",
+                "${vcpkgRoot}/installed/x64-windows/include",
+                "C:/Program Files (x86)/Windows Kits/10/Include/**",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/*/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "WIN32",
+                "_WIN32",
+                "MATERIALX_BUILD_SHARED_LIBS"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
