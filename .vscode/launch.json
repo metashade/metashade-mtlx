@@ -18,6 +18,10 @@
                 {
                     "name": "MATERIALX_SEARCH_PATH",
                     "value": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries"
+                },
+                {
+                    "name": "PYTHONPATH",
+                    "value": "${workspaceFolder}"
                 }
             ],
             "externalConsole": false
@@ -36,6 +40,10 @@
                 {
                     "name": "MATERIALX_SEARCH_PATH",
                     "value": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries"
+                },
+                {
+                    "name": "PYTHONPATH",
+                    "value": "${workspaceFolder}"
                 }
             ],
             "externalConsole": false
