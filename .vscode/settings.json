@@ -1,4 +1,26 @@
 {
     "MaterialX.buildDirectory": "${workspaceFolder}/../_builds/MaterialX.metashade",
-    "MaterialX.installPrefix": "${workspaceFolder}/../_builds/MaterialX.metashade/installed"
+    "MaterialX.installPrefix": "${workspaceFolder}/../_builds/MaterialX.metashade/installed",
+    "files.associations": {
+        "xlocale": "cpp",
+        "xlocmon": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "future": "cpp",
+        "memory": "cpp",
+        "random": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "variant": "cpp",
+        "xmemory0": "cpp",
+        "xtr1common": "cpp",
+        "xutility": "cpp",
+        "array": "cpp",
+        "compare": "cpp",
+        "format": "cpp",
+        "xmemory": "cpp",
+        "xstring": "cpp"
+    }
 }
