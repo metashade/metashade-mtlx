@@ -24,7 +24,7 @@
                     "value": "${workspaceFolder}"
                 }
             ],
-            "externalConsole": false
+            "console": "internalConsole"
         },
         {
             "name": "MaterialX Graph Editor Debug",
@@ -46,7 +46,7 @@
                     "value": "${workspaceFolder}"
                 }
             ],
-            "externalConsole": false
+            "console": "internalConsole"
         }
     ]
 }
