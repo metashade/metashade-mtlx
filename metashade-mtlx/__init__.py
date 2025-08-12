@@ -12,14 +12,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-def get_purple_glsl_function():
-    """
-    Returns the GLSL code for the dummy purple function implemented in MaterialX.
-    
-    Returns:
-        str: GLSL function code that returns a purple color
-    """
-    return '''vec3 mx_metashade_purple()
-{
-    return vec3(0.5, 0.0, 1.0); // Purple color
-}'''
