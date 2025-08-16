@@ -39,8 +39,38 @@ def generate(out_dir_path):
         shutil.rmtree(out_dir_path)
     os.makedirs(out_dir_path)
     
+    # Generate the GLSL shader file
     with open(out_dir_path / "metashade.glsl", "w") as f:
         f.write(get_purple_glsl_function())
+    
+    # Create MaterialX document for node definitions
+    doc = mx.createDocument()
+    
+    # Define the metashade node definition
+    nodedef = doc.addNodeDef("ND_metashade_purple", "metashade", "color3")
+    nodedef.setDocString("Metashade-generated dummy node that returns a purple color")
+    
+    # The output is automatically created when specifying the output type in addNodeDef
+    # Get the existing output to verify it exists
+    output = nodedef.getOutput("out")
+    if output:
+        output.setDocString("Purple color output")
+    
+    # Define the GLSL implementation for the metashade node
+    impl = doc.addImplementation("IM_metashade_purple_genglsl")
+    impl.setNodeDef(nodedef)
+    impl.setTarget("genglsl")
+    impl.setFile("metashade.glsl")
+    impl.setFunction("mx_metashade_purple")
+    impl.setDocString("GLSL implementation of metashade node")
+    
+    # Write the MaterialX document to file
+    mtlx_file_path = out_dir_path / "metashade.mtlx"
+    mx.writeToXmlFile(doc, str(mtlx_file_path))
+    
+    print(f"Generated files:")
+    print(f"  - {out_dir_path / 'metashade.glsl'}")
+    print(f"  - {mtlx_file_path}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
