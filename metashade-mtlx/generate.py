@@ -17,6 +17,8 @@ import os
 from pathlib import Path
 import shutil
 
+import MaterialX as mx
+
 def get_purple_glsl_function():
     """
     Returns the GLSL code for the dummy purple function implemented in MaterialX.
@@ -30,6 +32,8 @@ def get_purple_glsl_function():
 }'''
 
 def generate(out_dir_path):
+    print(f"MaterialX version: {mx.__version__}")
+
     # Delete the output directory in order to delete any stale files
     if os.path.exists(out_dir_path):
         shutil.rmtree(out_dir_path)
