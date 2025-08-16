@@ -47,7 +47,7 @@ def generate(out_dir_path):
     doc = mx.createDocument()
     
     # Define the metashade node definition
-    nodedef = doc.addNodeDef("ND_metashade_purple", "metashade", "color3")
+    nodedef = doc.addNodeDef(name = "ND_metashade_purple", node = "metashade", type = "color3")
     nodedef.setDocString("Metashade-generated dummy node that returns a purple color")
     
     # The output is automatically created when specifying the output type in addNodeDef
