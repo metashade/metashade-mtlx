@@ -5,19 +5,19 @@
             "name": "MaterialX Viewer Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/bin/MaterialXView.exe",
+            "program": "${workspaceFolder}/builds/MaterialX/installed/bin/MaterialXView.exe",
             "args": [
-                "--material", "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries/bxdf/standard_surface.mtlx",
-                "--mesh", "${workspaceFolder}/../_builds/MaterialX.metashade/installed/resources/Geometry/sphere.obj",
-                "--envRad", "${workspaceFolder}/../_builds/MaterialX.metashade/installed/resources/Lights/san_giuseppe_bridge.hdr",
-                "--library", "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries"
+                "--material", "${workspaceFolder}/builds/MaterialX/installed/libraries/bxdf/standard_surface.mtlx",
+                "--mesh", "${workspaceFolder}/builds/MaterialX/installed/resources/Geometry/sphere.obj",
+                "--envRad", "${workspaceFolder}/builds/MaterialX/installed/resources/Lights/san_giuseppe_bridge.hdr",
+                "--library", "${workspaceFolder}/builds/MaterialX/installed/libraries"
             ],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/bin",
+            "cwd": "${workspaceFolder}/builds/MaterialX/installed/bin",
             "environment": [
                 {
                     "name": "MATERIALX_SEARCH_PATH",
-                    "value": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries"
+                    "value": "${workspaceFolder}/builds/MaterialX/installed/libraries"
                 },
                 {
                     "name": "PYTHONPATH",
@@ -30,16 +30,16 @@
             "name": "MaterialX Graph Editor Debug",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/bin/MaterialXGraphEditor.exe",
+            "program": "${workspaceFolder}/builds/MaterialX/installed/bin/MaterialXGraphEditor.exe",
             "args": [
-                "--library", "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries"
+                "--library", "${workspaceFolder}/builds/MaterialX/installed/libraries"
             ],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/bin",
+            "cwd": "${workspaceFolder}/builds/MaterialX/installed/bin",
             "environment": [
                 {
                     "name": "MATERIALX_SEARCH_PATH",
-                    "value": "${workspaceFolder}/../_builds/MaterialX.metashade/installed/libraries"
+                    "value": "${workspaceFolder}/builds/MaterialX/installed/libraries"
                 },
                 {
                     "name": "PYTHONPATH",

@@ -2,13 +2,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Configure MaterialX Debug",
+			"label": "Configure MaterialX",
 			"type": "shell",
 			"command": "cmake",
 			"args": [
 				"-S", "${workspaceFolder}/MaterialX",
 				"-B", "${config:MaterialX.buildDirectory}",
-				"-DCMAKE_BUILD_TYPE=Debug",
 				"-DCMAKE_INSTALL_PREFIX=${config:MaterialX.installPrefix}",
 				"-DMATERIALX_BUILD_VIEWER=ON",
 				"-DMATERIALX_BUILD_GRAPH_EDITOR=ON",
@@ -35,10 +34,8 @@
 			"type": "shell",
 			"command": "cmake",
 			"args": [
-				"--build",
-				"${config:MaterialX.buildDirectory}",
-				"--config",
-				"Debug",
+				"--build", "${config:MaterialX.buildDirectory}",
+				"--config", "Debug",
 				"--parallel"
 			],
 			"group": {
@@ -50,7 +47,7 @@
 				"$gcc"
 			],
 			"isBackground": false,
-			"dependsOn": "Configure MaterialX Debug",
+			"dependsOn": "Configure MaterialX",
 			"options": {
 				"shell": {
 					"executable": "cmd.exe",

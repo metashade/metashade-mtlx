@@ -1,6 +1,6 @@
 {
-    "MaterialX.buildDirectory": "${workspaceFolder}/../_builds/MaterialX.metashade",
-    "MaterialX.installPrefix": "${workspaceFolder}/../_builds/MaterialX.metashade/installed",
+    "MaterialX.buildDirectory": "${workspaceFolder}/builds/MaterialX",
+    "MaterialX.installPrefix": "${workspaceFolder}/builds/MaterialX/installed",
     "files.associations": {
         "xlocale": "cpp",
         "xlocmon": "cpp",
