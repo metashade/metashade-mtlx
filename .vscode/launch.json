@@ -39,7 +39,7 @@
             "environment": [
                 {
                     "name": "MATERIALX_SEARCH_PATH",
-                    "value": "${workspaceFolder}/builds/MaterialX/installed/libraries"
+                    "value": "${workspaceFolder}/builds/MaterialX/installed/libraries;${workspaceFolder}/lib"
                 },
                 {
                     "name": "PYTHONPATH",
