@@ -24,11 +24,11 @@ def get_purple_glsl_function():
     Returns the GLSL code for the dummy purple function implemented in MaterialX.
     
     Returns:
-        str: GLSL function code that returns a purple color
+        str: GLSL function code that outputs a purple color via parameter
     """
-    return '''vec3 mx_metashade_purple()
+    return '''void mx_metashade_purple(out vec3 result)
 {
-    return vec3(0.5, 0.0, 1.0); // Purple color
+    result = vec3(0.5, 0.0, 1.0); // Purple color
 }'''
 
 def generate(out_dir_path):
