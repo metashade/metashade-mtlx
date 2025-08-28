@@ -32,15 +32,12 @@
             "request": "launch",
             "program": "${workspaceFolder}/builds/MaterialX/installed/bin/MaterialXGraphEditor.exe",
             "args": [
-                "--library", "${workspaceFolder}/builds/MaterialX/installed/libraries"
+                "--library", "${workspaceFolder}/builds/MaterialX/installed/libraries",
+                "--library", "${workspaceFolder}/libraries"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/builds/MaterialX/installed/bin",
             "environment": [
-                {
-                    "name": "MATERIALX_SEARCH_PATH",
-                    "value": "${workspaceFolder}/builds/MaterialX/installed/libraries;${workspaceFolder}/lib"
-                },
                 {
                     "name": "PYTHONPATH",
                     "value": "${workspaceFolder}"
@@ -54,7 +51,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/metashade-mtlx/generate.py",
             "args": [
-                "--out-dir", "${workspaceFolder}/lib"
+                "--out-dir", "${workspaceFolder}/libraries"
             ],
             "cwd": "${workspaceFolder}",
             "env": {
