@@ -30,6 +30,13 @@
         "stack": "cpp",
         "vector": "cpp",
         "xhash": "cpp",
-        "xtree": "cpp"
-    }
+        "xtree": "cpp",
+        "algorithm": "cpp",
+        "xiosbase": "cpp"
+    },
+    "python.testing.pytestArgs": [
+        "metashade"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
