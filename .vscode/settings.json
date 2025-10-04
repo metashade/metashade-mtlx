@@ -35,8 +35,15 @@
         "xiosbase": "cpp"
     },
     "python.testing.pytestArgs": [
-        "metashade"
+        "metashade/tests",
+        "-v"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.testing.cwd": "${workspaceFolder}",
+    "python.defaultInterpreterPath": "C:\\Users\\tripc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/metashade"
+    ]
 }
