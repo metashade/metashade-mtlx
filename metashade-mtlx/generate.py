@@ -69,7 +69,7 @@ class GeneratorContext:
 
         # Define the node implementation for the Metashade node
         impl = self._doc.addImplementation(
-            f'IM_{func_name}_{self._mx_generator_name}'
+            f'IM_{func_name}_{self._mx_target_name}'
         )
         impl.setNodeDef(nodedef)
         impl.setTarget(self._mx_target_name)
@@ -102,7 +102,7 @@ def generate_purple(ctx : GeneratorContext) -> None:
     func_name = 'mx_metashade_purple'
 
     with sh.function(func_name)(result = Out(sh.RgbF)):
-        result = sh.RgbF(0.5, 0.0, 1.0)
+        result = sh.RgbF((0.5, 0.0, 1.0))
 
     ctx.add_node(
         func_name = func_name,
