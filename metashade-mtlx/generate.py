@@ -31,6 +31,14 @@ class GeneratorContext:
         self._sh = self._create_generator()
         return self._sh
     
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type is not None:
+            self._file.close()
+            return False
+        
+        self._file.close()
+        return True
+    
     @abc.abstractmethod
     def _create_generator(self):
         pass
