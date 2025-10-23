@@ -95,7 +95,7 @@ class GlslGeneratorContext(GeneratorContext):
         return 'genglsl'
 
     def _create_generator(self):
-        return frag.Generator(self._file, '450')
+        return frag.Generator(self._file, glsl_version = '')
 
 def generate_purple(ctx : GeneratorContext) -> None:
     sh = ctx._sh
