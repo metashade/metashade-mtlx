@@ -56,7 +56,7 @@
             "cwd": "${workspaceFolder}",
             "env": {
                 "MATERIALX_SEARCH_PATH": "${workspaceFolder}/builds/MaterialX/installed/libraries",
-                "PYTHONPATH": "${workspaceFolder}/builds/MaterialX/installed/python"
+                "PYTHONPATH": "${workspaceFolder}/metashade;${workspaceFolder}/builds/MaterialX/installed/python"
             },
             "console": "integratedTerminal",
             "justMyCode": true
