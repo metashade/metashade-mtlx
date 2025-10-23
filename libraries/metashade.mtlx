@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <materialx version="1.39">
-  <nodedef name="ND_metashade_purple" node="metashade" doc="Metashade-generated dummy node that returns a purple color">
-    <output name="out" type="color3" doc="Purple color output" />
+  <nodedef name="ND_mx_metashade_purple" node="metashade" doc="Metashade-generated dummy node that returns a purple color">
+    <output name="out" type="color3" doc="The output" />
   </nodedef>
-  <implementation name="IM_metashade_purple_genglsl" nodedef="ND_metashade_purple" target="genglsl" file="metashade.glsl" function="mx_metashade_purple" doc="GLSL implementation of metashade node" />
+  <implementation name="IM_mx_metashade_purple_genglsl" nodedef="ND_mx_metashade_purple" target="genglsl" file="metashade.glsl" function="mx_metashade_purple" doc="genglsl implementation of ND_mx_metashade_purple" />
 </materialx>

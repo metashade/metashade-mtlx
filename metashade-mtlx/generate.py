@@ -102,7 +102,7 @@ def generate_purple(ctx : GeneratorContext) -> None:
     func_name = 'mx_metashade_purple'
 
     with sh.function(func_name)(result = Out(sh.RgbF)):
-        result = sh.RgbF((0.5, 0.0, 1.0))
+        sh.result = sh.RgbF((0.5, 0.0, 1.0))
 
     ctx.add_node(
         func_name = func_name,
