@@ -16,9 +16,12 @@ import argparse
 import os
 from pathlib import Path
 import shutil
+import sys
+import abc
 
 import MaterialX as mx
 from metashade.glsl import frag
+from metashade._rtsl.qualifiers import Out
 
 class GeneratorContext:
     def __init__(self, doc, out_dir):
@@ -29,7 +32,7 @@ class GeneratorContext:
     def __enter__(self):
         self._file = open(self._src_path, 'w')
         self._sh = self._create_generator()
-        return self._sh
+        return self
     
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is not None:
@@ -41,6 +44,16 @@ class GeneratorContext:
     
     @abc.abstractmethod
     def _create_generator(self):
+        pass
+
+    @property
+    @abc.abstractmethod 
+    def _file_extension(self):
+        pass
+
+    @property
+    @abc.abstractmethod
+    def _mx_target_name(self):
         pass
 
     def add_node(self, func_name : str, mx_doc_string : str):
@@ -73,19 +86,23 @@ class GeneratorContext:
             output.setDocString("The output")
 
 class GlslGeneratorContext(GeneratorContext):
-    _file_extension = 'glsl'
-    _mx_target_name = 'genglsl'
+    @property
+    def _file_extension(self):
+        return 'glsl'
+    
+    @property
+    def _mx_target_name(self):
+        return 'genglsl'
 
     def _create_generator(self):
         return frag.Generator(self._file, '450')
 
 def generate_purple(ctx : GeneratorContext) -> None:
-    sh = ctx.sh
+    sh = ctx._sh
     func_name = 'mx_metashade_purple'
 
-    with sh.function(func_name, result = sh.Out(sh.Float3)):
-        # Generate purple color: vec3(0.5, 0.0, 1.0)
-        result = sh.Float3(0.5, 0.0, 1.0)
+    with sh.function(func_name)(result = Out(sh.RgbF)):
+        result = sh.RgbF(0.5, 0.0, 1.0)
 
     ctx.add_node(
         func_name = func_name,
