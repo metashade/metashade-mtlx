@@ -16,20 +16,99 @@ import argparse
 import os
 from pathlib import Path
 import shutil
+import sys
+import abc
 
 import MaterialX as mx
+from metashade.glsl import frag
+from metashade._rtsl.qualifiers import Out
 
-def get_purple_glsl_function():
-    """
-    Returns the GLSL code for the dummy purple function implemented in MaterialX.
+class GeneratorContext:
+    def __init__(self, doc, out_dir):
+        self._doc = doc
+        self._src_file_name = f'metashade.{self._file_extension}'
+        self._src_path = out_dir / self._src_file_name
+
+    def __enter__(self):
+        self._file = open(self._src_path, 'w')
+        self._sh = self._create_generator()
+        return self
     
-    Returns:
-        str: GLSL function code that outputs a purple color via parameter
-    """
-    return '''void mx_metashade_purple(out vec3 result)
-{
-    result = vec3(0.5, 0.0, 1.0); // Purple color
-}'''
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type is not None:
+            self._file.close()
+            return False
+        
+        self._file.close()
+        return True
+    
+    @abc.abstractmethod
+    def _create_generator(self):
+        pass
+
+    @property
+    @abc.abstractmethod 
+    def _file_extension(self):
+        pass
+
+    @property
+    @abc.abstractmethod
+    def _mx_target_name(self):
+        pass
+
+    def add_node(self, func_name : str, mx_doc_string : str):
+        nodedef_name = f'ND_{func_name}'
+
+        # Define the metashade node definition
+        nodedef = self._doc.addNodeDef(
+            name = nodedef_name,
+            node = 'metashade',
+            type = 'color3'     # TODO: derive from the function definition
+        )
+        nodedef.setDocString(mx_doc_string)
+
+        # Define the node implementation for the Metashade node
+        impl = self._doc.addImplementation(
+            f'IM_{func_name}_{self._mx_target_name}'
+        )
+        impl.setNodeDef(nodedef)
+        impl.setTarget(self._mx_target_name)
+        impl.setFile(self._src_file_name)
+        impl.setFunction(func_name)
+        impl.setDocString(
+            f'{self._mx_target_name} implementation of {nodedef_name}'
+        )
+
+        # The output is automatically created when specifying the output type
+        # in addNodeDef. Get the existing output to verify it exists
+        output = nodedef.getOutput("out")
+        if output:
+            output.setDocString("The output")
+
+class GlslGeneratorContext(GeneratorContext):
+    @property
+    def _file_extension(self):
+        return 'glsl'
+    
+    @property
+    def _mx_target_name(self):
+        return 'genglsl'
+
+    def _create_generator(self):
+        return frag.Generator(self._file, glsl_version = '')
+
+def generate_purple(ctx : GeneratorContext) -> None:
+    sh = ctx._sh
+    func_name = 'mx_metashade_purple'
+
+    with sh.function(func_name)(result = Out(sh.RgbF)):
+        sh.result = sh.RgbF((0.5, 0.0, 1.0))
+
+    ctx.add_node(
+        func_name = func_name,
+        mx_doc_string = 'Metashade-generated dummy node '
+                        'that returns a purple color'
+    )
 
 def generate(out_dir_path):
     print(f"MaterialX version: {mx.__version__}")
@@ -38,32 +117,13 @@ def generate(out_dir_path):
     if os.path.exists(out_dir_path):
         shutil.rmtree(out_dir_path)
     os.makedirs(out_dir_path)
-    
-    # Generate the GLSL shader file
-    with open(out_dir_path / "metashade.glsl", "w") as f:
-        f.write(get_purple_glsl_function())
-    
+
     # Create MaterialX document for node definitions
     doc = mx.createDocument()
-    
-    # Define the metashade node definition
-    nodedef = doc.addNodeDef(name = "ND_metashade_purple", node = "metashade", type = "color3")
-    nodedef.setDocString("Metashade-generated dummy node that returns a purple color")
-    
-    # The output is automatically created when specifying the output type in addNodeDef
-    # Get the existing output to verify it exists
-    output = nodedef.getOutput("out")
-    if output:
-        output.setDocString("Purple color output")
-    
-    # Define the GLSL implementation for the metashade node
-    impl = doc.addImplementation("IM_metashade_purple_genglsl")
-    impl.setNodeDef(nodedef)
-    impl.setTarget("genglsl")
-    impl.setFile("metashade.glsl")
-    impl.setFunction("mx_metashade_purple")
-    impl.setDocString("GLSL implementation of metashade node")
-    
+
+    with GlslGeneratorContext(doc = doc, out_dir = out_dir_path) as ctx:
+        generate_purple(ctx = ctx)
+
     # Write the MaterialX document to file
     mtlx_file_path = out_dir_path / "metashade.mtlx"
     mx.writeToXmlFile(doc, str(mtlx_file_path))
@@ -74,7 +134,7 @@ def generate(out_dir_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description = "Generate MaterialX nodes and shader source code for them."
+        description = "Generate MaterialX nodes and source code for them."
     )
      
     parser.add_argument("--out-dir", help = "Path to the output directory")
