@@ -21,7 +21,6 @@ import abc
 
 import MaterialX as mx
 from metashade.glsl import frag
-from metashade._rtsl.qualifiers import Out
 
 class GeneratorContext:
     def __init__(self, doc, out_dir):
@@ -101,7 +100,7 @@ def generate_purple(ctx : GeneratorContext) -> None:
     sh = ctx._sh
     func_name = 'mx_metashade_purple'
 
-    with sh.function(func_name)(result = Out(sh.RgbF)):
+    with sh.function(func_name)(result = sh.Out(sh.RgbF)):
         sh.result = sh.RgbF((0.5, 0.0, 1.0))
 
     ctx.add_node(
