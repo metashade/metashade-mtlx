@@ -22,6 +22,8 @@ import abc
 import MaterialX as mx
 from metashade.glsl import frag
 
+from . import dtypes
+
 class GeneratorContext:
     def __init__(self, doc, out_dir):
         self._doc = doc
@@ -57,14 +59,24 @@ class GeneratorContext:
 
     def add_node(self, func_name : str, mx_doc_string : str):
         nodedef_name = f'ND_{func_name}'
+        
+        # Get the function from the generator to access reflection data
+        func = getattr(self._sh, func_name)
 
         # Define the metashade node definition
         nodedef = self._doc.addNodeDef(
             name = nodedef_name,
             node = 'metashade',
-            type = 'color3'     # TODO: derive from the function definition
+            type = 'color3'
         )
         nodedef.setDocString(mx_doc_string)
+
+        # Add input parameters from the function definition
+        for param_name, param_def in func._param_defs.items():
+            param_type = dtypes.metashade_to_mtlx(param_def.dtype_factory)
+            if param_type:
+                input_param = nodedef.addInput(param_name, param_type)
+                input_param.setDocString(f'Input parameter {param_name}')
 
         # Define the node implementation for the Metashade node
         impl = self._doc.addImplementation(
