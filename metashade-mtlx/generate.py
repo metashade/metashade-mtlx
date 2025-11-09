@@ -21,6 +21,9 @@ import abc
 
 import MaterialX as mx
 from metashade.glsl import frag
+from metashade._rtsl.qualifiers import Direction
+
+import dtypes
 
 class GeneratorContext:
     def __init__(self, doc, out_dir):
@@ -57,14 +60,35 @@ class GeneratorContext:
 
     def add_node(self, func_name : str, mx_doc_string : str):
         nodedef_name = f'ND_{func_name}'
+        
+        # Get the function from the generator to access reflection data
+        func = getattr(self._sh, func_name)
 
-        # Define the metashade node definition
+        # Define the metashade node definition without auto-creating output
+        # We'll add inputs and outputs manually in the order they're defined
         nodedef = self._doc.addNodeDef(
             name = nodedef_name,
             node = 'metashade',
-            type = 'color3'     # TODO: derive from the function definition
+            type = ''  # Empty type means no auto-created output
         )
         nodedef.setDocString(mx_doc_string)
+
+        # Add parameters in their original order, distinguishing inputs from outputs
+        for param_name, param_def in func._param_defs.items():
+            # Check if this is an output parameter
+            is_output = any(
+                qualifier.direction == Direction.OUT 
+                for qualifier in param_def.qualifiers
+            )
+            
+            param_type = dtypes.metashade_to_mtlx(param_def.dtype_factory)
+            
+            if is_output:
+                output_param = nodedef.addOutput(param_name, param_type)
+                output_param.setDocString(f'Output parameter {param_name}')
+            else:
+                input_param = nodedef.addInput(param_name, param_type)
+                input_param.setDocString(f'Input parameter {param_name}')
 
         # Define the node implementation for the Metashade node
         impl = self._doc.addImplementation(
@@ -77,12 +101,6 @@ class GeneratorContext:
         impl.setDocString(
             f'{self._mx_target_name} implementation of {nodedef_name}'
         )
-
-        # The output is automatically created when specifying the output type
-        # in addNodeDef. Get the existing output to verify it exists
-        output = nodedef.getOutput("out")
-        if output:
-            output.setDocString("The output")
 
 class GlslGeneratorContext(GeneratorContext):
     @property
