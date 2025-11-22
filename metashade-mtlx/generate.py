@@ -26,22 +26,35 @@ from metashade._rtsl.qualifiers import Direction
 import dtypes
 
 class GeneratorContext:
-    def __init__(self, doc, out_dir):
-        self._doc = doc
-        self._src_file_name = f'metashade.{self._file_extension}'
+    def __init__(self, base_name, out_dir):
+        base_impl_name = f'{base_name}_{self._mx_target_name}_impl'
+
+        self._src_file_name = f'{base_impl_name}.{self._src_extension}'
         self._src_path = out_dir / self._src_file_name
 
+        self._nodedef_doc_path = out_dir / f'{base_name}_defs.mtlx'
+        self._impl_doc_path = out_dir / f'{base_impl_name}.mtlx'
+
     def __enter__(self):
-        self._file = open(self._src_path, 'w')
+        self._nodedef_doc = mx.createDocument()
+        self._impl_doc = mx.createDocument()
+        self._src_file = open(self._src_path, 'w')
         self._sh = self._create_generator()
         return self
     
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is not None:
-            self._file.close()
+            self._src_file.close()
             return False
         
-        self._file.close()
+        self._src_file.close()
+        mx.writeToXmlFile(self._nodedef_doc, str(self._nodedef_doc_path))
+        mx.writeToXmlFile(self._impl_doc, str(self._impl_doc_path))
+
+        print(f"Generated files:")
+        print(f"  - {self._nodedef_doc_path}")
+        print(f"  - {self._impl_doc_path}")
+        print(f"  - {self._src_path}")
         return True
     
     @abc.abstractmethod
@@ -50,7 +63,7 @@ class GeneratorContext:
 
     @property
     @abc.abstractmethod 
-    def _file_extension(self):
+    def _src_extension(self):
         pass
 
     @property
@@ -66,7 +79,7 @@ class GeneratorContext:
 
         # Define the metashade node definition without auto-creating output
         # We'll add inputs and outputs manually in the order they're defined
-        nodedef = self._doc.addNodeDef(
+        nodedef = self._nodedef_doc.addNodeDef(
             name = nodedef_name,
             node = 'metashade',
             type = ''  # Empty type means no auto-created output
@@ -91,7 +104,7 @@ class GeneratorContext:
                 input_param.setDocString(f'Input parameter {param_name}')
 
         # Define the node implementation for the Metashade node
-        impl = self._doc.addImplementation(
+        impl = self._impl_doc.addImplementation(
             f'IM_{func_name}_{self._mx_target_name}'
         )
         impl.setNodeDef(nodedef)
@@ -104,7 +117,7 @@ class GeneratorContext:
 
 class GlslGeneratorContext(GeneratorContext):
     @property
-    def _file_extension(self):
+    def _src_extension(self):
         return 'glsl'
     
     @property
@@ -112,7 +125,7 @@ class GlslGeneratorContext(GeneratorContext):
         return 'genglsl'
 
     def _create_generator(self):
-        return frag.Generator(self._file, glsl_version = '')
+        return frag.Generator(self._src_file, glsl_version = '')
 
 def generate_purple(ctx : GeneratorContext) -> None:
     sh = ctx._sh
@@ -135,19 +148,8 @@ def generate(out_dir_path):
         shutil.rmtree(out_dir_path)
     os.makedirs(out_dir_path)
 
-    # Create MaterialX document for node definitions
-    doc = mx.createDocument()
-
-    with GlslGeneratorContext(doc = doc, out_dir = out_dir_path) as ctx:
+    with GlslGeneratorContext(out_dir = out_dir_path, base_name='metashade') as ctx:
         generate_purple(ctx = ctx)
-
-    # Write the MaterialX document to file
-    mtlx_file_path = out_dir_path / "metashade.mtlx"
-    mx.writeToXmlFile(doc, str(mtlx_file_path))
-    
-    print(f"Generated files:")
-    print(f"  - {out_dir_path / 'metashade.glsl'}")
-    print(f"  - {mtlx_file_path}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
