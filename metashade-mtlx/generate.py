@@ -85,7 +85,7 @@ class GeneratorContext:
         # We'll add inputs and outputs manually in the order they're defined
         nodedef = self._nodedef_doc.addNodeDef(
             name = nodedef_name,
-            node = 'metashade',
+            node = func_name,
             type = ''  # Empty type means no auto-created output
         )
         nodedef.setDocString(mx_doc_string)
@@ -133,7 +133,7 @@ class GlslGeneratorContext(GeneratorContext):
 
 def generate_purple(ctx : GeneratorContext) -> None:
     sh = ctx._sh
-    func_name = 'mx_metashade_purple'
+    func_name = 'metashade_purple'
 
     with sh.function(func_name)(result = sh.Out(sh.RgbF)):
         sh.result = sh.RgbF((0.5, 0.0, 1.0))
