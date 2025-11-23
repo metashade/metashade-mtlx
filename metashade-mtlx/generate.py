@@ -43,11 +43,15 @@ class GeneratorContext:
         return self
     
     def __exit__(self, exc_type, exc_value, traceback):
+        self._src_file.close()
+        
         if exc_type is not None:
-            self._src_file.close()
+            print(
+                f"Error during generation: {exc_type.__name__}: {exc_value}",
+                file=sys.stderr
+            )
             return False
         
-        self._src_file.close()
         mx.writeToXmlFile(self._nodedef_doc, str(self._nodedef_doc_path))
         mx.writeToXmlFile(self._impl_doc, str(self._impl_doc_path))
 
