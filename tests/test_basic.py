@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import _base
+from . import _base
 
 class TestBasic:
     def test_dummy_purple(self):
