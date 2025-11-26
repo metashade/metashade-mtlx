@@ -31,7 +31,7 @@ class GlslTestContext(GlslGeneratorContext):
 
     def __init__(self):
         test_name = get_test_func_name()
-        super.__init__(self, test_name, self._out_dir)
+        super().__init__(test_name, self._out_dir)
 
 # Initialize class method
 GlslTestContext.setup_class()
