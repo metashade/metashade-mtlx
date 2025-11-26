@@ -35,6 +35,7 @@
         "xiosbase": "cpp"
     },
     "python.testing.pytestArgs": [
+        "tests",
         "metashade/tests",
         "-v"
     ],
