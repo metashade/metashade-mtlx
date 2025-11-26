@@ -35,7 +35,3 @@ class GlslTestContext(GlslGeneratorContext):
 
 # Initialize class method
 GlslTestContext.setup_class()
-
-class TestBase:
-    """Base class for MaterialX metashade tests."""
-    pass

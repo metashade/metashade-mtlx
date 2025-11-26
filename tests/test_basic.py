@@ -16,16 +16,16 @@ import pytest
 import _base
 
 
-class TestPurple(_base.TestBase):
+class TestBasic:
     """Tests for the purple color generator function."""
     
-    def test_purple_function(self):
+    def test_dummy_purple(self):
         """Generate a simple purple color function."""
         ctx = _base.GlslMaterialXContext()
         
         with ctx as test_ctx:
             sh = test_ctx._sh
-            func_name = 'mx_metashade_purple'
+            func_name = 'dummy_purple'
             
             # Define the purple function
             with sh.function(func_name)(result=sh.Out(sh.RgbF)):
