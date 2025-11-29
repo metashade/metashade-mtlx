@@ -12,26 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import inspect
 import os
-import sys
 from pathlib import Path
 
-import MaterialX as mx
-from metashade.glsl import frag
-from metashade.util.tests import get_test_func_name
-
+from metashade.util.testing import get_test_func_name
 from generate import GlslGeneratorContext
 
 class GlslTestContext(GlslGeneratorContext):
     @classmethod
-    def setup_class(cls):
-        cls._parent_dir = Path(sys.modules[cls.__module__].__file__).parent
-        cls._out_dir = cls._parent_dir.parent / 'libraries'
+    def setup_class(cls, test_dir: Path):
+        cls._parent_dir = test_dir
+        cls._out_dir = test_dir.parent / 'libraries'
         os.makedirs(cls._out_dir, exist_ok=True)
 
     def __init__(self):
         test_name = get_test_func_name()
         super().__init__(test_name, self._out_dir)
-
-# Initialize class method
-GlslTestContext.setup_class()

@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from . import _base
+from util.testing import GlslTestContext
 
 class TestBasic:
     def test_dummy_purple(self):
         """Generate a simple purple color function."""
-        ctx = _base.GlslTestContext()
+        ctx = GlslTestContext()
         
         with ctx as test_ctx:
             sh = test_ctx._sh
