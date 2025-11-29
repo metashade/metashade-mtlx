@@ -32,7 +32,7 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
-pythonpath = [".", "metashade"]
+pythonpath = [".", "metashade", "builds/MaterialX/installed/python"]
 
 [tool.black]
 line-length = 88
