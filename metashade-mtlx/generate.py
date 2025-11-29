@@ -130,39 +130,3 @@ class GlslGeneratorContext(GeneratorContext):
 
     def _create_generator(self):
         return frag.Generator(self._src_file, glsl_version = '')
-
-def generate_purple(ctx : GeneratorContext) -> None:
-    sh = ctx._sh
-    func_name = 'metashade_purple'
-
-    with sh.function(func_name)(result = sh.Out(sh.RgbF)):
-        sh.result = sh.RgbF((0.5, 0.0, 1.0))
-
-    ctx.add_node(
-        func_name = func_name,
-        mx_doc_string = 'Metashade-generated dummy node '
-                        'that returns a purple color'
-    )
-
-def generate(out_dir_path):
-    print(f"MaterialX version: {mx.__version__}")
-
-    # Delete the output directory in order to delete any stale files
-    if os.path.exists(out_dir_path):
-        shutil.rmtree(out_dir_path)
-    os.makedirs(out_dir_path)
-
-    with GlslGeneratorContext(out_dir = out_dir_path, base_name='metashade') as ctx:
-        generate_purple(ctx = ctx)
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description = "Generate MaterialX nodes and source code for them."
-    )
-     
-    parser.add_argument("--out-dir", help = "Path to the output directory")
-    args = parser.parse_args()
-
-    generate(
-        out_dir_path = Path(args.out_dir)
-    )
