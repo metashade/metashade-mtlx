@@ -32,3 +32,25 @@ class TestBasic:
                 func_name=func_name,
                 mx_doc_string='Metashade-generated dummy node that returns a purple color'
             )
+
+    def test_metashade_add_color3(self):
+        """Generate a color3 addition function."""
+        ctx = GlslTestContext()
+        
+        with ctx as test_ctx:
+            sh = test_ctx._sh
+            func_name = 'metashade_add_color3'
+            
+            # Define the color addition function
+            with sh.function(func_name)(
+                in1=sh.RgbF,
+                in2=sh.RgbF,
+                result=sh.Out(sh.RgbF)
+            ):
+                sh.result = sh.in1 + sh.in2
+            
+            # Add as MaterialX node
+            test_ctx.add_node(
+                func_name=func_name,
+                mx_doc_string='Metashade-generated node that adds two color3 values'
+            )
