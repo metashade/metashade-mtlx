@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<materialx version="1.39">
-  <implementation name="IM_metashade_purple_genglsl" nodedef="ND_metashade_purple" target="genglsl" file="metashade_genglsl_impl.glsl" function="metashade_purple" doc="genglsl implementation of ND_metashade_purple" />
-</materialx>
