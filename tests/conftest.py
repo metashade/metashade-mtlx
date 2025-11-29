@@ -16,9 +16,9 @@ import os
 import sys
 from pathlib import Path
 
-# Add metashade-mtlx to the path so we can import from it
+# Add metashade_mtlx to the path so we can import from it
 repo_root = Path(__file__).parent.parent
-sys.path.insert(0, str(repo_root / 'metashade-mtlx'))
+sys.path.insert(0, str(repo_root))
 
 # Add MaterialX Python bindings from local build
 materialx_python_path = repo_root / 'builds' / 'MaterialX' / 'installed' / 'python'
@@ -26,7 +26,7 @@ if materialx_python_path.exists():
     sys.path.insert(0, str(materialx_python_path))
 
 # Set up test context with this directory
-from util import testing
+from metashade_mtlx.util import testing
 
 test_dir = Path(__file__).parent
 testing.GlslTestContext.setup_class(test_dir)

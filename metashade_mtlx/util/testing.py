@@ -17,7 +17,7 @@ import os
 from pathlib import Path
 
 from metashade.util.testing import get_test_func_name
-from generate import GlslGeneratorContext
+from metashade_mtlx.generate import GlslGeneratorContext
 
 class GlslTestContext(GlslGeneratorContext):
     @classmethod
