@@ -27,13 +27,11 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-# Configure pytest to find tests in the metashade submodule
-testpaths = ["metashade/tests"]
+testpaths = ["tests", "metashade/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
-# Add both the root and metashade to Python path for imports
 pythonpath = [".", "metashade"]
 
 [tool.black]

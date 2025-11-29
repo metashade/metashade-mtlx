@@ -44,22 +44,6 @@
                 }
             ],
             "console": "internalConsole"
-        },
-        {
-            "name": "Generate MaterialX Metashade Library",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/metashade-mtlx/generate.py",
-            "args": [
-                "--out-dir", "${workspaceFolder}/libraries"
-            ],
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "MATERIALX_SEARCH_PATH": "${workspaceFolder}/builds/MaterialX/installed/libraries",
-                "PYTHONPATH": "${workspaceFolder}/metashade;${workspaceFolder}/builds/MaterialX/installed/python"
-            },
-            "console": "integratedTerminal",
-            "justMyCode": true
         }
     ]
 }
