@@ -26,6 +26,16 @@ class GlslTestContext(GlslGeneratorContext):
         cls._out_dir = test_dir.parent / 'libraries'
         os.makedirs(cls._out_dir, exist_ok=True)
 
-    def __init__(self):
-        test_name = get_test_func_name()
-        super().__init__(test_name, self._out_dir)
+    def __init__(self, base_name: str = None, impl_only: bool = False):
+        """
+        Initialize a GLSL test context.
+        
+        Args:
+            base_name: Optional custom base name for output files.
+                       If not provided, uses the test function name.
+                       For library-level overrides, use e.g., 'metashade_pbrlib'
+            impl_only: If True, skip nodedef generation (for overrides)
+        """
+        if base_name is None:
+            base_name = get_test_func_name()
+        super().__init__(base_name, self._out_dir, impl_only=impl_only)

@@ -28,7 +28,7 @@ class TestBasic:
                 sh.result = sh.RgbF((0.5, 0.0, 1.0))
             
             # Add as MaterialX node
-            test_ctx.add_node(
+            test_ctx.add_node_impl(
                 func_name=func_name,
                 mx_doc_string='Metashade-generated dummy node that returns a purple color'
             )
@@ -50,7 +50,7 @@ class TestBasic:
                 sh.result = sh.in1 + sh.in2
             
             # Add as MaterialX node
-            test_ctx.add_node(
+            test_ctx.add_node_impl(
                 func_name=func_name,
                 mx_doc_string='Metashade-generated node that adds two color3 values'
             )
