@@ -95,3 +95,22 @@ In this model, Metashade integrates directly into the MaterialX `ShaderGen` step
 This allows for optimizations that are impossible with static files, such as baking a "Generic Blur" node that unrolls its sampling loop based on a specific kernel size, or stripping dead code branches based on constant inputs (e.g., removing Anisotropy logic if `roughness` is isotropic).
 
 A proof-of-concept implementation of this approach exists in the [`metashade/dev` branch](https://github.com/ppenenko/MaterialX/tree/metashade/dev) of MaterialX. See the [`MetashadeNode`](https://github.com/ppenenko/MaterialX/tree/metashade/dev/source/PyMaterialX/PyMaterialXMetashade) class, which demonstrates embedding Python into MaterialX's `ShaderGen` step via pybind11.
+
+---
+
+## Why Metashade?
+
+Integrating Metashade into MaterialX offers benefits across the pipeline, from authoring to runtime execution.
+
+### For the Runtime (Performance)
+* **Dead Code Elimination:** Unlike GLSL drivers which struggle with uniform-based branching, Metashade performs graph-aware analysis. If an input is unconnected or constant, the associated code branch is stripped *before* the GPU ever sees it.
+* **Register Pressure Reduction:** By specializing generalized ubershaders (like `standard_surface`) into micro-shaders, we significantly reduce the number of temporary variables (VGPRs), allowing higher occupancy on the GPU.
+* **Loop Unrolling:** Procedural patterns (Noise, Voronoi) can be unrolled based on design-time constants (octaves), replacing heavy loops with flat arithmetic sequences.
+
+### For the Pipeline (Safety)
+* **Global Sanitization:** Metashade can inject "Safe Math" wrappers (e.g., `safe_pow`, `safe_div`) globally across all generated code, preventing NaN explosions in production renders caused by bad user inputs (e.g., `roughness=0`).
+* **Validation:** Python-side type checking catches invalid node connections or parameter types during generation, providing readable error messages instead of cryptic driver crashes.
+
+### For the Developer (Architecture)
+* **Imperative Authoring:** Write complex node logic using standard Python control flow (`if`, `for`, `try`) instead of manually constructing XML nodegraphs.
+* **Source Code Acquisition:** (Planned) Metashade will be able to wrap existing MaterialX source code nodes, allowing developers to rewrite high-level graph topology in Python while reusing optimized low-level GLSL atoms.
