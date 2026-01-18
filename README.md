@@ -49,3 +49,47 @@ classDiagram
     note for CustomImpl "User-defined subclass
     for dynamic code emission"
 ```
+
+---
+
+## Roadmap
+
+### Phase 1: Static Source Code Nodes (Current State)
+
+Metashade can generate static GLSL or HLSL/Slang source code and the accompanying `.mtlx` implementation files.
+
+Because standard "Source Code Nodes" in MaterialX are typically static assets (loading a `.glsl` file from disk), Metashade can already fully reimplement them.
+
+**The Workflow:**
+1.  Write node logic in Python using Metashade.
+2.  Run Metashade to generate `node_impl.glsl` and `node_impl.mtlx`.
+3.  MaterialX loads these files at runtime exactly as it would load the standard library.
+
+This allows us to immediately start optimizing complex mathematical functions (like PBR Distribution terms) or unrolling heavy procedural loops (like Noise).
+
+### Phase 2: Source Code Node Acquisition (Planned)
+
+The next step is **Hybrid Graph Generation**. We aim to let Metashade "acquire" (call) existing MaterialX source code nodes.
+
+Instead of rewriting every single utility node in Python immediately, Metashade will inspect existing MaterialX `NodeDefs` and expose them as callable Python functions during generation.
+
+**The Concept:**
+* Metashade parses `ND_fractal3d_float`.
+* It exposes a Python callable: `stdlib.fractal3d(...)`.
+* When invoked in a Metashade graph, it emits the correct native function call in the generated GLSL.
+
+This bridges the gap, allowing users to write high-level imperative control flow (Python) that orchestrates low-level atomic operations (Standard MaterialX Library).
+
+### Phase 3: Dynamic Runtime Generation (Experimental)
+
+The ultimate goal is to move beyond static files and enable **Just-In-Time (JIT) Optimization**.
+
+In this model, Metashade integrates directly into the MaterialX `ShaderGen` step via a custom C++ node running an embedded Python interpreter.
+
+**The Workflow:**
+1.  A "Dynamic Node" in the graph captures design-time constants from the current material instance.
+2.  The C++ `ShaderGen` passes these constants to the embedded Metashade interpreter.
+3.  Metashade generates a **bespoke GLSL implementation** on the fly for *that specific material*.
+
+**Why this matters:**
+This allows for optimizations that are impossible with static files, such as baking a "Generic Blur" node that unrolls its sampling loop based on a specific kernel size, or stripping dead code branches based on constant inputs (e.g., removing Anisotropy logic if `roughness` is isotropic).
