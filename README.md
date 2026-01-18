@@ -1,8 +1,19 @@
 # metashade-mtlx
 
-Prototyping integrations of [Metashade](https://github.com/metashade/metashade) into [MaterialX](https://github.com/AcademySoftwareFoundation/MaterialX)
+This project prototypes extending [MaterialX](https://github.com/AcademySoftwareFoundation/MaterialX) shader code generation with [Metashade](https://github.com/metashade/metashade), a Pythonic shader EDSL.
 
-## Per-node MaterialX Code Generation mechanisms
+## Node Implementations as a Plugin Mechanism
+
+To understand how Metashade can extend MaterialX codegen, it is crucial to distinguish between MaterialX concepts of Node **Definitions** and Node **Implementations**.
+
+* **NodeDef (`<nodedef>`):** The interface. It defines inputs, outputs, and types (e.g., `ND_burley_diffuse_bsdf`).
+* **Implementation (`<implementation>`):** The logic. It points to source code or a nodegraph that implements the computations.
+
+Crucially, **Implementations reference NodeDefs, not the other way around.**
+
+This architecture allows Metashade to generate either new MaterialX node definitions complete with implementations, or new MaterialX node implementations for existing MaterialX nodes, without modifying the core MaterialX definitions.
+
+## MaterialX Node Implementation Code Generation mechanisms
 
 In order to understand how Metashade's codegen can integrate with MaterialX's, let's first discuss how MaterialX generates code for individual nodes.
 
